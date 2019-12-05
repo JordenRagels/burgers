@@ -1,4 +1,4 @@
-const connection = require("config/connection.js");
+const connection = require("../config/connection");
 
 function createQmarks(num) {
     var arr = [];
@@ -69,3 +69,5 @@ const orm = {
         });
     },
 }
+
+module.exports = orm;

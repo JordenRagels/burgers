@@ -1,7 +1,7 @@
 const express = require("express");
 const burger = require("../models/burger");
 
-const router = expressRouter();
+const router = express.Router();
 
 router.get("/", function(req, res) {
     burger.selectAll(function(data) {
@@ -40,4 +40,13 @@ router.deleteOne(condition, function(req, res) {
     let condition = "id = " + req.params.id;
     console.log("condition", condition);
 
-})
+    burger.deleteOne(condition, function(result) {
+        if ((result, changeRows === 0)) {
+            return res.status(404).end();
+        } else {
+            res.status(200).end();
+        }
+    })
+}) 
+
+module.exports = router;
