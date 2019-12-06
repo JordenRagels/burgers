@@ -27,7 +27,7 @@ const orm = {
     // update data in db
     updateOne: (id, cb) => {
         let sqlQuery = 'UPDATE burgers SET ? WHERE ?;'
-        connection.query(sqlQuery,[{devoured: true}, {id: id}], (err, res) => {
+        connection.query(sqlQuery,[{devoured: false}, {id: id}], (err, res) => {
             if (err) {
                 throw err;
             }

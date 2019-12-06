@@ -1,0 +1,36 @@
+<h1>Welcome to Burger App!</h1>
+
+<h2>Add a Burger</h2>
+    <form action="/api/burgers" method="POST">
+    <input type="text" name="burger_name" value="" placeholder="">
+    <button type="submit">Add Burger!</button>
+</form>
+
+<h2>Burgers Available:</h2>
+    {{#each burgers}}
+    {{#unless this.devoured}}
+        <form action='/api/burgers/{{id}}' method='POST'>
+        <li>{{id}}  {{burger_name}}</li><br>
+        <button class='change-devour' type='submit' id='devour'>Eat The Burger!</button>
+        </form>
+        <br>
+    {{/unless}}
+    {{/each}}
+
+<h2>Burgers Already Devoured:</h2>
+    <ul>
+    {{#each burgers}}
+    {{#if devoured}}
+    <!--<form action='/burgers/clear{{id}}' method='POST'>-->
+        <li>{{id}}  {{burger_name}}</li><br>
+       <!-- <button type='submit'>CLEAR</button>
+        </form> -->
+    {{/if}}
+    {{/each}}
+    </ul>
+
+<script type='text/javascript'>
+
+// Make sure we wait to attach our handlers until the DOM is fully loaded.
+
+</script>

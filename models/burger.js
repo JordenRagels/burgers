@@ -14,7 +14,7 @@ let burger = {
         });
     },
     update: (id, cb) => {
-        orm.selectAll(id, (res) => {
+        orm.updateOne(id, (res) => {
             cb(res);
         });
     },
