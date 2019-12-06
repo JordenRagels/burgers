@@ -1,24 +1,30 @@
+// Import the ORM (Object Relational Mapper to create functions that will query the DB)
 const orm = require("../config/orm");
 
 let burger = {
-    selectAll: function(cd) {
-        orm.selectAll("burgers", function(res) {
-            cd(res);
+    all: (cb) => {
+        orm.selectAll((res) => {
+            cb(res);
         });
     },
-    insertOne: function(cols, vals, cd) {
-        orm.selectAll("burgers", cols, vals, function(res) {
-            cd(res);
+    insert: (burger_name, cb) => {
+        orm.insertOne(burger_name, (res) => {
+            console.log(burger_name);
+            cb(res);
         });
     },
-    updateOne: function(objColVals, condition, cd) {
-        orm.selectAll("burgers", objColVals, condition, function(res) {
-            cd(res);
+    update: (id, cb) => {
+        orm.selectAll(id, (res) => {
+            cb(res);
         });
     },
-    deleteOne: function(condition, cd) {
-        orm.selectAll("burgers", condition, function(res) {
-            cd(res);
+    clear: (id, cb) => {
+        orm.selectAll(id, (res) => {
+            console.log(id + ' deleted!');
+            cb(res);
         });
     },
 }
+
+// Export the database functions for the controller
+module.exports = burger;

@@ -1,52 +1,54 @@
-const express = require("express");
-const burger = require("../models/burger");
+// Required dependencies
+const express = require('express')
 
-const router = express.Router();
+// Importing burger model to use its database functionality
+const burger = require('../models/burger')
 
-router.get("/", function(req, res) {
-    burger.selectAll(function(data) {
-        var hdbrsObj = {
-            burgers: date
-        }
-        console.log(hdbrsObj);
-        res.render("index", hdbrsObj);
-    });
-});
+// Using express router
+const router = express.Router()
 
-router.post("/api/burgers", function(req, res) {
-    burger.insertOne(
-        ["burger name", "devoured"], [req.body.burger_name, req.body.devoured],
-        function(result) {
-            res.json({ id: result.insertId });
-        }
-    );
-});
+// Create all routes and set up logic within those routes
 
-router.put("/api/burgers/:id", function(req, res) {
-    let condition = "id = " + req.params.id;
-    console.log("condition", condition);
-    burger.updateOne({ devoured: req.body.devoured },
-        condition,
-        function(result) {
-            if (result, changedRows === 0) {
-                return res.status(404).end();
-            } else {
-                res.status(200).end();
-            }
-        });
-});
+// Home
+router.get('/', (req, res) => {
+	res.redirect('/index')
+})
 
-router.delete('api/burgers/:id', function(req, res) {
-    let condition = "id = " + req.params.id;
-    console.log("condition", condition);
+// selectAll
+router.get('/index', (req, res) => {
+	burger.all(data => {
+		let handlebarsObj = {
+			burgers: data
+		}
+		console.log(handlebarsObj)
+		res.render('index', handlebarsObj)
+	})
+})
 
-    burger.deleteOne(condition, function(result) {
-        if ((result, changeRows === 0)) {
-            return res.status(404).end();
-        } else {
-            res.status(200).end();
-        }
-    })
-}) 
+//insertOne (add burger button)
+router.post('/api/burgers', (req, res) => {
+	burger.insert(req.body.burger_name, data => {
+		res.redirect('/index')
+	})
+})
 
-module.exports = router;
+//updateOne (eat the burger button)
+router.post('/api/burgers/:id', (req, res) => {
+	let condition = req.params.id
+	console.log('condition ' + condition)
+	burger.update(condition, data => {
+		res.redirect('/index')
+	})
+})
+
+//deleteOn (clear burger from db)
+router.delete('api/burgers/:id', (req, res) => {
+	let cleared = 'id = ' + req.params.id
+	console.log('id to delete' + condition)
+
+	burger.clear(cleared, result => {
+		res.redirect('/index')
+	})
+})
+
+module.exports = router
