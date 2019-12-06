@@ -1,71 +1,47 @@
+// Import connection to MySQL db
 const connection = require("../config/connection");
 
-function createQmarks(num) {
-    var arr = [];
-    for (var i = 0; i < num; i++) {
-        arr.push("?");
-    }
-}
-
-function translateSql(obj) {
-    let arr = [];
-    for (let key in obj) {
-        let value = obj[key];
-        if (Object.hasOwnProperty.call(obj, key)) {
-            if (typeof value === "string " && value.indexOf(" ") >= 0) {
-                value = "'" + value + "'";
-            }
-            arr.push(key + " = " + value)
-        }
-    }
-    return arr.toString();
-}
-
-
+// Object for all SQL statement functions to be used
 const orm = {
-    selectAll: function(table, cd) {
-        var dbQuery = "SELECT * FROM" + table + ";";
-        connection.query(dbQuery, function(err, res) {
+    // read db
+    selectAll: (cb) => {
+        let sqlQuery = 'SELECT * FROM burgers;'
+        connection.query(sqlQuery, (err, res) => {
             if (err) {
                 throw err;
             }
-            cd(res);
+            cb(res);
         });
     },
-    insertOne: function(table, cols, vals, cd) {
-        var dbQuery =
-            "INSERT INTO" +
-            table +
-            " (" +
-            cols.toString() +
-            ") " +
-            "VALUES (" +
-            createQmarks(vals.length) +
-            ") ";
-        console.log(dbQuery);
-        connection.query(dbQuery, function(err, res) {
+    // add data to db
+    insertOne: (burger_name, cb) => {
+        let sqlQuery = 'INSERT INTO burgers (burger_name) VALUE (?);'
+        console.log(sqlQuery);
+        connection.query(sqlQuery, burger_name, (err, res) => {
             if (err) {
                 throw err;
             }
-            cd(res);
+            cb(res);
         });
     },
-    updateOne: function(table, objColVals, condition, cd) {
-        let dbQuery = "UPDATE" + table + "SET" + translateSql(objColVals) + "WHERE" + condition;
-        connection.query(dbQuery, function(err, res) {
+    // update data in db
+    updateOne: (id, cb) => {
+        let sqlQuery = 'UPDATE burgers SET ? WHERE ?;'
+        connection.query(sqlQuery,[{devoured: true}, {id: id}], (err, res) => {
             if (err) {
                 throw err;
             }
-            cd(res);
+            cb(res);
         });
     },
-    deleteOne: function(table, condition, cd) {
-        let dbQuery = "DELETE FROM " + table + "WHERE" + condition;
-        connection.query(dbQuery, function(err, res) {
+    // delete data from db
+    deleteOne: (id, cb) => {
+        let sqlQuery = 'DELETE FROM burgers WHERE ?;'
+        connection.query(sqlQuery, {id: id}, (err, res) => {
             if (err) {
                 throw err;
             }
-            cd(res);
+            cb(res);
         });
     },
 }
