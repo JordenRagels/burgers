@@ -11,10 +11,10 @@ const mysql = require("mysql");
 //     connection = mysql.createConnection(process.env.JAWSDB_URL);
 // } else {
     connection = mysql.createConnection({
-        host: process.env.Host,
-        user: process.env.Username,
-        password: process.env.Password,
-        database: process.env.Database
+        host: process.env.HOST,
+        user: process.env.USERNAME,
+        password: process.env.PASSWORD,
+        database: process.env.DATABASE
     });
 //};
 
